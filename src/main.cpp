@@ -9,10 +9,10 @@ int main(int argc, char *argv[])
 
     QMainWindow mainWindow;
     mainWindow.setWindowTitle("My Qt App");
-    mainWindow.setGeometry(100, 100, 400, 300); // x, y, width, height
+    mainWindow.setGeometry(100, 100, 400, 300);
 
     QLabel *label = new QLabel("Hello, Qt!", &mainWindow);
-    label->setAlignment(Qt::AlignCenter);
+    label->setAlignment(Qt::AlignCenter); 
     mainWindow.setCentralWidget(label);
 
     mainWindow.show();
