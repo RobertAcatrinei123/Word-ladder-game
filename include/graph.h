@@ -3,6 +3,8 @@
 #include <vector>
 #include <unordered_map>
 #include <queue>
+#include <algorithm>
+#include <iostream>
 
 template <typename T>
 class Graph
@@ -13,8 +15,11 @@ private:
 public:
     void addEdge(const T &src, const T &dest)
     {
-        adj[src].push_back(dest);
-        adj[dest].push_back(src);
+        if (std::find(adj[src].begin(), adj[src].end(), dest) == adj[src].end())
+        {
+            adj[src].push_back(dest);
+            adj[dest].push_back(src);
+        }
     }
 
     std::vector<T> getNeighbors(const T &node) const
