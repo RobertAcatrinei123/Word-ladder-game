@@ -22,9 +22,9 @@ public:
         }
     }
 
-    std::vector<T> getNeighbors(const T &node) const
+    std::vector<T> getNeighbors(const T &vertex) const
     {
-        auto it = adj.find(node);
+        auto it = adj.find(vertex);
         if (it != adj.end())
         {
             return it->second;
@@ -67,5 +67,25 @@ public:
             }
         }
         return std::vector<T>();
+    }
+
+    std::vector<T> getAllVertices() const
+    {
+        std::vector<T> vertices;
+        for (const auto &pair : adj)
+        {
+            vertices.push_back(pair.first);
+        }
+        return vertices;
+    }
+
+    bool isVertex(const T &vertex) const
+    {
+        return adj.find(vertex) != adj.end();
+    }
+
+    void clear()
+    {
+        adj.clear();
     }
 };

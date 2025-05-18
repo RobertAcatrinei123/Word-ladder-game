@@ -3,6 +3,7 @@
 
 void Service::initGraph(const std::string &filename)
 {
+    graph.clear();
     auto words = FileIO::importDict(filename);
     std::unordered_map<std::string, std::vector<std::string>> wordMap;
     for (const auto &word : words)
@@ -29,4 +30,19 @@ void Service::initGraph(const std::string &filename)
             }
         }
     }
+}
+
+std::vector<std::string> Service::getWords()
+{
+    return graph.getAllVertices();
+}
+
+void Service::clearGraph()
+{
+    graph.clear();
+}
+
+std::vector<std::string> Service::getShortestPath(const std::string &start, const std::string &end)
+{
+    return graph.shortestPath(start, end);
 }

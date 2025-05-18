@@ -7,8 +7,12 @@
 
 class Service
 {
-    private:
-        Graph<std::string> graph;
-    public:
-        void initGraph(const std::string &filename);
+private:
+    Graph<std::string> graph;
+
+public:
+    std::vector<std::string> getWords();
+    void initGraph(const std::string &filename);
+    void clearGraph();
+    std::vector<std::string> getShortestPath(const std::string &start, const std::string &end);
 };
