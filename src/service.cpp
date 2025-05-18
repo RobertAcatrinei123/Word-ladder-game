@@ -46,3 +46,16 @@ std::vector<std::string> Service::getShortestPath(const std::string &start, cons
 {
     return graph.shortestPath(start, end);
 }
+
+std::pair<std::string, std::string> Service::getStartEndWords()
+{
+    auto words = graph.getAllVertices();
+    int i, j;
+    srand(time(0));
+    do
+    {
+        i = rand() % words.size();
+        j = rand() % words.size();
+    } while (i == j);
+    return {words[i], words[j]};
+}

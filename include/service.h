@@ -15,4 +15,5 @@ public:
     void initGraph(const std::string &filename);
     void clearGraph();
     std::vector<std::string> getShortestPath(const std::string &start, const std::string &end);
+    std::pair<std::string, std::string> getStartEndWords();
 };
