@@ -12,7 +12,9 @@ std::ostream &operator<<(std::ostream &os, const ProfileData &profile)
     }
     os << profile.date << " "
        << profile.time << " "
-       << profile.optimalSteps << "\n";
+       << profile.optimalSteps << " "
+       << profile.hints
+       << "\n";
     return os;
 }
 
@@ -26,7 +28,7 @@ std::istream &operator>>(std::istream &is, ProfileData &profile)
     {
         is >> profile.ladder[i];
     }
-    is >> profile.date >> profile.time >> profile.optimalSteps;
+    is >> profile.date >> profile.time >> profile.optimalSteps >> profile.hints;
     return is;
 }
 
@@ -113,3 +115,12 @@ void ProfileData::clear()
     optimalSteps = 0;
 }
 
+void ProfileData::incrementHints()
+{
+    hints++;
+}
+
+int ProfileData::getHints() const
+{
+    return hints;
+}

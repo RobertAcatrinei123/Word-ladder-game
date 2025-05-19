@@ -14,6 +14,7 @@ private:
     std::string date = "";
     std::string time = "";
     int optimalSteps = 0;
+    int hints = 0;
 
 public:
     ProfileData() = default;
@@ -32,5 +33,7 @@ public:
     std::string getDate() const;
     std::string getTime() const;
     int getOptimalSteps() const;
+    void incrementHints();
+    int getHints() const;
     void clear();
 };

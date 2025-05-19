@@ -33,4 +33,6 @@ public:
     std::string getProfileTime() const;
     int getProfileOptimalSteps() const;
     void clearProfile();
+    void saveProfile();
+    void incrementHints();
 };

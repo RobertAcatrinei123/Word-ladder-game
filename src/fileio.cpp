@@ -26,3 +26,14 @@ std::vector<std::string> FileIO::importDict(const std::string &filename)
     fin.close();
     return words;
 }
+
+void FileIO::exportProfile(const ProfileData &profile)
+{
+    std::ofstream fout(profile.getName() + ".txt", std::ios::app);
+    if (!fout)
+    {
+        throw std::runtime_error("Could not open file: profiles.txt");
+    }
+    fout << profile;
+    fout.close();
+}

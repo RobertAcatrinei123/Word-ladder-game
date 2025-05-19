@@ -191,6 +191,7 @@ QMainWindow *UI::playWindow(QRect geometry)
             return;
         }
         std::string name = nameEdit->text().toStdString();
+        service.setProfileName(name);
         int letterCount = letterCountComboBox->currentText().toInt();
 
         service.initGraph("dictionary" + std::to_string(letterCount) + ".txt");
@@ -199,12 +200,15 @@ QMainWindow *UI::playWindow(QRect geometry)
         std::string startWord = words.first;
         std::string endWord = words.second;
 
+        service.setProfileStartWord(startWord);
+        service.setProfileEndWord(endWord);
+
         std::vector<std::string> ladder;
         ladder.push_back(startWord);
         ladder.push_back("?");
         ladder.push_back(endWord);
 
-        auto newWindow = playingWindow(name, ladder,false, window->geometry());
+        auto newWindow = playingWindow(ladder,false, window->geometry());
 
         if (window->isFullScreen()) {
             newWindow->showFullScreen();
@@ -219,14 +223,21 @@ QMainWindow *UI::playWindow(QRect geometry)
     return window;
 }
 
-QMainWindow *UI::playingWindow(const std::string &name, std::vector<std::string> ladder, bool hint, QRect geometry)
+QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect geometry)
 {
     int n = ladder.size();
     bool done = service.neighbours(ladder[n - 1], ladder[n - 3]);
     if (done)
     {
         ladder.erase(std::remove(ladder.begin(), ladder.end(), "?"), ladder.end());
-        QMessageBox::information(nullptr, "Congratulations", QString::fromStdString(name) + ", you have completed the game!");
+        QMessageBox::information(nullptr, "Congratulations", QString::fromStdString(service.getProfileName()) + ", you have completed the game!");
+        service.setProfileDateTime();
+        service.setProfileLadder(ladder);
+        auto shortest = service.getShortestPath(ladder[0], ladder.back());
+        service.setProfileOptimalSteps(shortest.size() - 1);
+
+        service.saveProfile();
+
         QMainWindow *newWindow = menuWindow(geometry);
         if (newWindow->isFullScreen())
         {
@@ -261,7 +272,7 @@ QMainWindow *UI::playingWindow(const std::string &name, std::vector<std::string>
     layout->addWidget(wordEdit, 0, Qt::AlignCenter);
 
     QPushButton *submitButton = new QPushButton("Submit", centralWidget);
-    QObject::connect(submitButton, &QPushButton::clicked, [window, this, name, ladder, ladderWidget, wordEdit, n]()
+    QObject::connect(submitButton, &QPushButton::clicked, [window, this, ladder, wordEdit, n]()
                      {
                         
         std::string word = wordEdit->text().toStdString();
@@ -270,7 +281,7 @@ QMainWindow *UI::playingWindow(const std::string &name, std::vector<std::string>
             std::vector<std::string> newLadder{ladder};
             newLadder.insert(newLadder.begin()+n-2, word);
             
-            auto newWindow = playingWindow(name, newLadder, false, window->geometry());
+            auto newWindow = playingWindow(newLadder, false, window->geometry());
             if (window->isFullScreen()) {
                 newWindow->showFullScreen();
             } else {
@@ -288,9 +299,10 @@ QMainWindow *UI::playingWindow(const std::string &name, std::vector<std::string>
     if (!hint)
     {
         QPushButton *hintButton = new QPushButton("Hint", centralWidget);
-        QObject::connect(hintButton, &QPushButton::clicked, [window, this, ladderWidget, name, ladder]()
+        QObject::connect(hintButton, &QPushButton::clicked, [window, this, ladder]()
                          {
-        auto newWindow = playingWindow(name, ladder, true, window->geometry());
+        service.incrementHints();
+        auto newWindow = playingWindow(ladder, true, window->geometry());
         if (window->isFullScreen()) {
             newWindow->showFullScreen();
         } else {

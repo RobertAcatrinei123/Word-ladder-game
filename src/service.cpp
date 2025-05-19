@@ -143,3 +143,13 @@ void Service::clearProfile()
 {
     profile.clear();
 }
+
+void Service::saveProfile()
+{
+    FileIO::exportProfile(profile);
+}
+
+void Service::incrementHints()
+{
+    profile.incrementHints();
+}

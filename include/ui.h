@@ -21,7 +21,7 @@ private:
     QMainWindow *autoWindow(QRect geometry = defaultGeometry);
     QMainWindow *autoLadderWindow(std::string start, std::string end, QRect geometry = defaultGeometry);
     QMainWindow *playWindow(QRect geometry = defaultGeometry);
-    QMainWindow *playingWindow(const std::string &name, std::vector<std::string> ladder, bool hint = false, QRect geometry = defaultGeometry);
+    QMainWindow *playingWindow(std::vector<std::string> ladder, bool hint = false, QRect geometry = defaultGeometry);
     QMainWindow *analyticsWindow(QRect geometry = defaultGeometry);
     QWidget *WordLadderWidget(std::vector<std::string> words, QWidget *parent = (QWidget *)nullptr, bool hint = false);
 
