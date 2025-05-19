@@ -221,6 +221,24 @@ QMainWindow *UI::playWindow(QRect geometry)
 
 QMainWindow *UI::playingWindow(const std::string &name, std::vector<std::string> ladder, bool hint, QRect geometry)
 {
+    int n = ladder.size();
+    bool done = service.neighbours(ladder[n - 1], ladder[n - 3]);
+    if (done)
+    {
+        ladder.erase(std::remove(ladder.begin(), ladder.end(), "?"), ladder.end());
+        QMessageBox::information(nullptr, "Congratulations", QString::fromStdString(name) + ", you have completed the game!");
+        QMainWindow *newWindow = menuWindow(geometry);
+        if (newWindow->isFullScreen())
+        {
+            newWindow->showFullScreen();
+        }
+        else
+        {
+            newWindow->show();
+        }
+        return newWindow;
+    }
+
     QMainWindow *window = new QMainWindow();
     window->setWindowTitle("Playing");
     window->setGeometry(geometry);
@@ -243,7 +261,28 @@ QMainWindow *UI::playingWindow(const std::string &name, std::vector<std::string>
     layout->addWidget(wordEdit, 0, Qt::AlignCenter);
 
     QPushButton *submitButton = new QPushButton("Submit", centralWidget);
-    QObject::connect(submitButton, &QPushButton::clicked, [window, this, name, ladderWidget, wordEdit]() {});
+    QObject::connect(submitButton, &QPushButton::clicked, [window, this, name, ladder, ladderWidget, wordEdit, n]()
+                     {
+                        
+        std::string word = wordEdit->text().toStdString();
+        if(service.neighbours(ladder[n-3],word))
+        {
+            std::vector<std::string> newLadder{ladder};
+            newLadder.insert(newLadder.begin()+n-2, word);
+            
+            auto newWindow = playingWindow(name, newLadder, false, window->geometry());
+            if (window->isFullScreen()) {
+                newWindow->showFullScreen();
+            } else {
+                newWindow->show();
+            }
+            window->close();
+        }
+        else
+        {
+            QMessageBox::warning(window, "Warning", "The word is not valid.");
+            return;
+        } });
     layout->addWidget(submitButton, 0, Qt::AlignCenter);
 
     if (!hint)

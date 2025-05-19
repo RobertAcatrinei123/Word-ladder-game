@@ -56,6 +56,90 @@ std::pair<std::string, std::string> Service::getStartEndWords()
     {
         i = rand() % words.size();
         j = rand() % words.size();
-    } while (i == j);
+    } while (i == j || neighbours(words[i], words[j]));
     return {words[i], words[j]};
+}
+
+bool Service::neighbours(const std::string &word1, const std::string &word2)
+{
+    if (word1.size() != word2.size())
+        return false;
+
+    int count = 0;
+    for (int i = 0; i < word1.size(); i++)
+    {
+        if (word1[i] != word2[i])
+            count++;
+    }
+    return count == 1;
+}
+
+void Service::setProfileName(const std::string &name)
+{
+    profile.setName(name);
+}
+
+void Service::setProfileStartWord(const std::string &startWord)
+{
+    profile.setStartWord(startWord);
+}
+
+void Service::setProfileEndWord(const std::string &endWord)
+{
+    profile.setEndWord(endWord);
+}
+
+void Service::setProfileLadder(const std::vector<std::string> &ladder)
+{
+    profile.setLadder(ladder);
+}
+
+void Service::setProfileDateTime()
+{
+    profile.setDateTime();
+}
+
+void Service::setProfileOptimalSteps(int steps)
+{
+    profile.setOptimalSteps(steps);
+}
+
+std::string Service::getProfileName() const
+{
+    return profile.getName();
+}
+
+std::string Service::getProfileStartWord() const
+{
+    return profile.getStartWord();
+}
+
+std::string Service::getProfileEndWord() const
+{
+    return profile.getEndWord();
+}
+
+std::vector<std::string> Service::getProfileLadder() const
+{
+    return profile.getLadder();
+}
+
+std::string Service::getProfileDate() const
+{
+    return profile.getDate();
+}
+
+std::string Service::getProfileTime() const
+{
+    return profile.getTime();
+}
+
+int Service::getProfileOptimalSteps() const
+{
+    return profile.getOptimalSteps();
+}
+
+void Service::clearProfile()
+{
+    profile.clear();
 }
