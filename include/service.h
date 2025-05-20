@@ -35,4 +35,5 @@ public:
     void clearProfile();
     void saveProfile();
     void incrementHints();
+    std::vector<std::string> getUniqueWordsFromProfile(std::string name) const;
 };

@@ -1,5 +1,6 @@
 #include "service.h"
 #include "fileio.h"
+#include <unordered_set>
 
 void Service::initGraph(const std::string &filename)
 {
@@ -152,4 +153,24 @@ void Service::saveProfile()
 void Service::incrementHints()
 {
     profile.incrementHints();
+}
+
+std::vector<std::string> Service::getUniqueWordsFromProfile(std::string name) const
+{
+    std::unordered_set<std::string> words;
+    std::ifstream fin(name + ".txt");
+    if (!fin)
+    {
+        throw std::runtime_error("Could not open file: " + name + ".txt");
+    }
+    ProfileData profile;
+    while (fin >> profile)
+    {
+        for (const auto &word : profile.getLadder())
+        {
+            words.insert(word);
+        }
+    }
+    fin.close();
+    return std::vector<std::string>(words.begin(), words.end());
 }

@@ -218,6 +218,18 @@ QMainWindow *UI::playWindow(QRect geometry)
         window->close(); });
     layout->addWidget(playButton, 0, Qt::AlignCenter);
 
+    QPushButton *backButton = new QPushButton("Back", centralWidget);
+    QObject::connect(backButton, &QPushButton::clicked, [window, this]()
+                     {
+        QMainWindow *newWindow = menuWindow(window->geometry());
+        if (window->isFullScreen()) {
+            newWindow->showFullScreen();
+        } else {
+            newWindow->show();
+        }
+        window->close(); });
+    layout->addWidget(backButton, 0, Qt::AlignCenter);
+
     layout->addStretch(1);
 
     return window;
@@ -332,8 +344,84 @@ QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect
 QMainWindow *UI::analyticsWindow(QRect geometry)
 {
     QMainWindow *window = new QMainWindow();
-    window->setWindowTitle("Analytics module");
+    window->setWindowTitle("Analytics");
     window->setGeometry(geometry);
+
+    QWidget *centralWidget = new QWidget(window);
+    window->setCentralWidget(centralWidget);
+
+    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+    layout->addStretch(1);
+
+    QLabel *label = new QLabel("Name:", centralWidget);
+    layout->addWidget(label, 0, Qt::AlignCenter);
+
+    QLineEdit *nameEdit = new QLineEdit(centralWidget);
+    layout->addWidget(nameEdit, 0, Qt::AlignCenter);
+
+    QPushButton *playButton = new QPushButton("See analytics", centralWidget);
+    QObject::connect(playButton, &QPushButton::clicked, [window, this, nameEdit]()
+                     {
+        if (nameEdit->text().isEmpty())
+        {
+            QMessageBox::warning(window, "Warning", "Please enter a name.");
+            return;
+        }
+
+        std::string name = nameEdit->text().toStdString();
+        
+        QMainWindow *newWindow;
+        try
+        {
+            newWindow = analyticsWordsWindow(service.getUniqueWordsFromProfile(name),window->geometry());
+        }
+        catch (const std::runtime_error &e)
+        {
+            QMessageBox::warning(window, "Warning", e.what());
+            return;
+        }
+
+        if (window->isFullScreen()) {
+            newWindow->showFullScreen();
+        } else {
+            newWindow->show();
+        }
+        window->close(); });
+    layout->addWidget(playButton, 0, Qt::AlignCenter);
+
+    layout->addStretch(1);
+
+    return window;
+}
+
+QMainWindow *UI::analyticsWordsWindow(std::vector<std::string> words, QRect geometry)
+{
+    QMainWindow *window = new QMainWindow();
+    window->setWindowTitle("Analytics");
+    window->setGeometry(geometry);
+
+    QWidget *centralWidget = new QWidget(window);
+    window->setCentralWidget(centralWidget);
+
+    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+    layout->addStretch(1);
+
+    auto ladderWidget = WordLadderWidget(words, centralWidget);
+    layout->addWidget(ladderWidget, 0, Qt::AlignCenter);
+
+    QPushButton *backButton = new QPushButton("Back", centralWidget);
+    QObject::connect(backButton, &QPushButton::clicked, [window, this]()
+                     {
+        QMainWindow *newWindow = menuWindow(window->geometry());
+        if (window->isFullScreen()) {
+            newWindow->showFullScreen();
+        } else {
+            newWindow->show();
+        }
+        window->close(); });
+    layout->addWidget(backButton, 0, Qt::AlignCenter);
+
+    layout->addStretch(1);
 
     return window;
 }
