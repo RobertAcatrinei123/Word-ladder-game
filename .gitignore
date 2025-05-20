@@ -1,3 +1,5 @@
 *.pdf
 obj
 app
+*.txt
+.vscode

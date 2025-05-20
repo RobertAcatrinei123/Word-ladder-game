@@ -11,9 +11,13 @@ QMainWindow *UI::menuWindow(QRect geometry)
     window->setWindowTitle("Word Ladder");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
 
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
 
     layout->addStretch(1);
@@ -32,7 +36,7 @@ QMainWindow *UI::menuWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(automaticButton, 0, Qt::AlignCenter);
+    layout->addWidget(automaticButton, 0);
 
     QPushButton *playButton = new QPushButton("Play mode", centralWidget);
     QObject::connect(playButton, &QPushButton::clicked, [window, this]()
@@ -44,7 +48,7 @@ QMainWindow *UI::menuWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(playButton, 0, Qt::AlignCenter);
+    layout->addWidget(playButton, 0);
 
     QPushButton *analyticsButton = new QPushButton("Analytics", centralWidget);
     QObject::connect(analyticsButton, &QPushButton::clicked, [window, this]()
@@ -56,9 +60,12 @@ QMainWindow *UI::menuWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(analyticsButton, 0, Qt::AlignCenter);
+    layout->addWidget(analyticsButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
@@ -69,8 +76,13 @@ QMainWindow *UI::autoWindow(QRect geometry)
     window->setWindowTitle("Automatic Mode");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
+
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addStretch(1);
 
@@ -85,13 +97,13 @@ QMainWindow *UI::autoWindow(QRect geometry)
     layout->addWidget(label, 0, Qt::AlignCenter);
     QComboBox *startComboBox = new QComboBox(centralWidget);
     startComboBox->addItems(wordList);
-    layout->addWidget(startComboBox, 0, Qt::AlignCenter);
+    layout->addWidget(startComboBox, 0);
 
     label = new QLabel("End:", centralWidget);
     layout->addWidget(label, 0, Qt::AlignCenter);
     QComboBox *endComboBox = new QComboBox(centralWidget);
     endComboBox->addItems(wordList);
-    layout->addWidget(endComboBox, 0, Qt::AlignCenter);
+    layout->addWidget(endComboBox, 0);
 
     QPushButton *playButton = new QPushButton("Start", centralWidget);
     QObject::connect(playButton, &QPushButton::clicked, [window, this, startComboBox, endComboBox]()
@@ -106,7 +118,7 @@ QMainWindow *UI::autoWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(playButton, 0, Qt::AlignCenter);
+    layout->addWidget(playButton, 0);
 
     QPushButton *backButton = new QPushButton("Back", centralWidget);
     QObject::connect(backButton, &QPushButton::clicked, [window, this]()
@@ -118,9 +130,12 @@ QMainWindow *UI::autoWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(backButton, 0, Qt::AlignCenter);
+    layout->addWidget(backButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
@@ -131,8 +146,12 @@ QMainWindow *UI::autoLadderWindow(std::string start, std::string end, QRect geom
     window->setWindowTitle("Automatic Ladder");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addStretch(1);
 
@@ -150,9 +169,12 @@ QMainWindow *UI::autoLadderWindow(std::string start, std::string end, QRect geom
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(backButton, 0, Qt::AlignCenter);
+    layout->addWidget(backButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
@@ -163,8 +185,13 @@ QMainWindow *UI::playWindow(QRect geometry)
     window->setWindowTitle("Play Mode");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
+
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
 
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addStretch(1);
@@ -173,14 +200,14 @@ QMainWindow *UI::playWindow(QRect geometry)
     layout->addWidget(label, 0, Qt::AlignCenter);
 
     QLineEdit *nameEdit = new QLineEdit(centralWidget);
-    layout->addWidget(nameEdit, 0, Qt::AlignCenter);
+    layout->addWidget(nameEdit, 0);
 
     QLabel *label2 = new QLabel("Number of letters:", centralWidget);
     layout->addWidget(label2, 0, Qt::AlignCenter);
 
     QComboBox *letterCountComboBox = new QComboBox(centralWidget);
     letterCountComboBox->addItems(letterCountList);
-    layout->addWidget(letterCountComboBox, 0, Qt::AlignCenter);
+    layout->addWidget(letterCountComboBox, 0);
 
     QPushButton *playButton = new QPushButton("Start", centralWidget);
     QObject::connect(playButton, &QPushButton::clicked, [window, this, nameEdit, letterCountComboBox]()
@@ -216,7 +243,7 @@ QMainWindow *UI::playWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(playButton, 0, Qt::AlignCenter);
+    layout->addWidget(playButton, 0);
 
     QPushButton *backButton = new QPushButton("Back", centralWidget);
     QObject::connect(backButton, &QPushButton::clicked, [window, this]()
@@ -228,9 +255,12 @@ QMainWindow *UI::playWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(backButton, 0, Qt::AlignCenter);
+    layout->addWidget(backButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
@@ -266,14 +296,18 @@ QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect
     window->setWindowTitle("Playing");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
 
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addStretch(1);
 
     QWidget *ladderWidget = WordLadderWidget(ladder, centralWidget, hint);
-    layout->addWidget(ladderWidget, 0, Qt::AlignCenter);
+    layout->addWidget(ladderWidget, 0);
 
     layout->addStretch(1);
 
@@ -281,7 +315,7 @@ QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect
     layout->addWidget(label, 0, Qt::AlignCenter);
 
     QLineEdit *wordEdit = new QLineEdit(centralWidget);
-    layout->addWidget(wordEdit, 0, Qt::AlignCenter);
+    layout->addWidget(wordEdit, 0);
 
     QPushButton *submitButton = new QPushButton("Submit", centralWidget);
     QObject::connect(submitButton, &QPushButton::clicked, [window, this, ladder, wordEdit, n]()
@@ -306,7 +340,7 @@ QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect
             QMessageBox::warning(window, "Warning", "The word is not valid.");
             return;
         } });
-    layout->addWidget(submitButton, 0, Qt::AlignCenter);
+    layout->addWidget(submitButton, 0);
 
     if (!hint)
     {
@@ -321,7 +355,7 @@ QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect
             newWindow->show();
         }
         window->close(); });
-        layout->addWidget(hintButton, 0, Qt::AlignCenter);
+        layout->addWidget(hintButton, 0);
     }
 
     QPushButton *backButton = new QPushButton("Back", centralWidget);
@@ -334,9 +368,12 @@ QMainWindow *UI::playingWindow(std::vector<std::string> ladder, bool hint, QRect
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(backButton, 0, Qt::AlignCenter);
+    layout->addWidget(backButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
@@ -347,8 +384,12 @@ QMainWindow *UI::analyticsWindow(QRect geometry)
     window->setWindowTitle("Analytics");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
 
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addStretch(1);
@@ -357,7 +398,7 @@ QMainWindow *UI::analyticsWindow(QRect geometry)
     layout->addWidget(label, 0, Qt::AlignCenter);
 
     QLineEdit *nameEdit = new QLineEdit(centralWidget);
-    layout->addWidget(nameEdit, 0, Qt::AlignCenter);
+    layout->addWidget(nameEdit, 0);
 
     QPushButton *playButton = new QPushButton("See analytics", centralWidget);
     QObject::connect(playButton, &QPushButton::clicked, [window, this, nameEdit]()
@@ -387,9 +428,12 @@ QMainWindow *UI::analyticsWindow(QRect geometry)
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(playButton, 0, Qt::AlignCenter);
+    layout->addWidget(playButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
@@ -400,28 +444,38 @@ QMainWindow *UI::analyticsWordsWindow(std::vector<std::string> words, QRect geom
     window->setWindowTitle("Analytics");
     window->setGeometry(geometry);
 
-    QWidget *centralWidget = new QWidget(window);
-    window->setCentralWidget(centralWidget);
+    QWidget *central = new QWidget(window);
+    window->setCentralWidget(central);
+    QHBoxLayout *hlayout = new QHBoxLayout(central);
+    hlayout->addStretch(5);
+
+    QWidget *centralWidget = new QWidget(central);
 
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addStretch(1);
 
+    QLabel *label = new QLabel("Unique words:\n", centralWidget);
+    layout->addWidget(label, 0, Qt::AlignCenter);
+
     auto ladderWidget = WordLadderWidget(words, centralWidget);
-    layout->addWidget(ladderWidget, 0, Qt::AlignCenter);
+    layout->addWidget(ladderWidget, 0);
 
     QPushButton *backButton = new QPushButton("Back", centralWidget);
     QObject::connect(backButton, &QPushButton::clicked, [window, this]()
                      {
-        QMainWindow *newWindow = menuWindow(window->geometry());
+        QMainWindow *newWindow = analyticsWindow(window->geometry());
         if (window->isFullScreen()) {
             newWindow->showFullScreen();
         } else {
             newWindow->show();
         }
         window->close(); });
-    layout->addWidget(backButton, 0, Qt::AlignCenter);
+    layout->addWidget(backButton, 0);
 
     layout->addStretch(1);
+
+    hlayout->addWidget(centralWidget, 2);
+    hlayout->addStretch(5);
 
     return window;
 }
